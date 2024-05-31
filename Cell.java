@@ -1,14 +1,24 @@
 public class Cell{
+  private int x;
+  private int y;
 
-public int getX(){
-  return x;
-}
+  public Cell(){
 
-public int getY(){ 
-  return y;
-}
+  }
+  public Cell(int x, int y){
+    this.x = x;
+    this.y = y;
+  }
 
-update(){  
-  
-}
+  public int getX(){
+    return x;
+  }
+
+  public int getY(){
+    return y;
+  }
+
+  public void update(){
+
+  }
 }
