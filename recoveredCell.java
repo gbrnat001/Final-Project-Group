@@ -2,6 +2,7 @@ public class recoveredCell extends fireCell{
 
     private int material;
     private boolean burn;
+
     public void update(){
 
     }
