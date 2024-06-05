@@ -6,7 +6,7 @@ public class ashCell extends Cell{
     //Constructor
     public ashCell(int x, int y, Grid grid){
         super(x, y, grid);
-        recoverTime = 30;
+        recoverTime = 40;
     }
 
     //checks if the time it takes for the ash to recover into grass has passed
