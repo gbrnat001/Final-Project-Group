@@ -39,7 +39,7 @@ public class Grid {
             for(int j = 0; j < gridSize; j++){
                 grid[i][j] = new emptyCell(i, j);
                 gridPanel[i][j] = new JPanel();
-                gridPanel[i][j].setBackground(new Color(65, 255, 70));
+                gridPanel[i][j].setBackground(new Color(65, 152, 10));
                 window.add(gridPanel[i][j]);
             }
         }
@@ -49,7 +49,7 @@ public class Grid {
             int x = rand.nextInt(gridSize);
             int y = rand.nextInt(gridSize);
             grid[x][y] = new fireCell(x, y, windSpeed, 10);
-            gridPanel[x][y].setBackground(new Color(160, 0, 40));
+            gridPanel[x][y].setBackground(new Color(230, 0, 0, 255));
         }
         window.setVisible(true);
     }
@@ -59,7 +59,7 @@ public class Grid {
     }
 
     private void readGrid(){
-
+        window.setVisible(true);
     }
     public Cell getCell(int x, int y){
         return grid[x][y];
@@ -101,6 +101,7 @@ public class Grid {
     //Testing ground
     public static void main(String[] args) {
         Grid grid = new Grid(15, 5, 3, 40, 4, 5);
+        grid.update();
     }
 }
 
