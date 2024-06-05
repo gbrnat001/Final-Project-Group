@@ -109,14 +109,6 @@ public class Grid {
         gridPanel[x][y].setBackground(getCellColor(cell));
     }
 
-
-    //main method for testing the Grid class
-    public static void main(String[] args) {
-        Grid grid = new Grid(30, 5, 3, 40, 3);
-        grid.update();
-    }
-
-
     //get the burn time 
     public int getBurnTime() {
         return 1;
@@ -147,6 +139,12 @@ public class Grid {
                 update();
             }
         }
+    }
+
+    //main method for testing the Grid class
+    public static void main(String[] args) {
+        Grid grid = new Grid(30, 5, 3, 40, 3);
+        grid.update();
     }
 
 }
