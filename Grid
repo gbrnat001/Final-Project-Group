@@ -71,7 +71,7 @@ public class Grid {
                     int nx = x + dx;
                     int ny = y + dy;
 
-                    // Check if the neighbor is within bounds
+                    // Check if bounds
                     if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
                         emptyCell neighbor = (emptyCell) grid[nx][ny];
                         if (neighbor.isEmpty()) {
@@ -127,7 +127,7 @@ public class Grid {
     }
     private void startTimer() {
         timer = new Timer();
-        timer.schedule(new MyTimer(), 0, 1000); // Schedule the MyTimer task to run every second (adjust the interval as needed)
+        timer.schedule(new MyTimer(), 0, 1000);
     }
 
     private class MyTimer extends TimerTask{
