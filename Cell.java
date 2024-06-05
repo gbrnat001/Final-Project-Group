@@ -1,26 +1,34 @@
+
+//Creates the basic cell in the grid, with x and y coordinates 
+
 public class Cell{
-    private int x;
-    private int y;
-    protected boolean isEmpty;
-    protected boolean isBurning;
-    protected boolean isBurned;
+  protected int x;
+  protected int y;
+  protected Grid grid;
 
-    public Cell(){}
-    public Cell(int x, int y){
-        this.x = x;
-        this.y = y;
-        this.isEmpty = false;
-    }
+  //default empty constructor 
+  public Cell(){
+  }
 
-    public int getX(){
-        return x;
-    }
+  //construsctor with the coordinates and grid reference 
+  public Cell(int x, int y, Grid grid){
+    this.x = x;
+    this.y = y;
+    this.grid = grid;
+  }
 
-    public int getY(){
-        return y;
-    }
+  //gets x coordinates 
+  public int getX(){
+    return x;
+  }
 
-    public void update(){
+  //gets y coordinates 
+  public int getY(){
+    return y;
+  }
 
-    }
+  //empty update method that will be overriden the the subclasses 
+  public void update(){
+
+  }
 }
