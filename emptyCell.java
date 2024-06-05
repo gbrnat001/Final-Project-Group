@@ -1,4 +1,4 @@
-//Author: , Worked on by: Jasiah Odell
+
 //A cell with no material in it 
 
 public class emptyCell extends Cell {

@@ -1,4 +1,4 @@
-//Author: , Worked on by: Jasiah Odell
+
 //Creates the basic cell in the grid, with x and y coordinates 
 
 public class Cell{

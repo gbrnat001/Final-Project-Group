@@ -1,18 +1,14 @@
-//Author: , Worked on by: Jasiah Odell
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class fireSim {
+public class fireSim extends JFrame {
 
-    public static void main(String[] args) {
-
+    //constructor to initialize the simulation
+    public fireSim() {
     }
 
-    public boolean actionDore(){
-
-        return true;
-    }
 }

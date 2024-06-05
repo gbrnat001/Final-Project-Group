@@ -1,7 +1,7 @@
-//Author: Jasiah Odell, Worked on by: 
+
 //A cell with grass
 public class GrassCell extends Cell{
-    private static final int GROW_TIME = 10;
+    private static final int GROW_TIME = 15;
     private static final int BURN_TIME = 5;
     private int growTime;
 
@@ -16,12 +16,17 @@ public class GrassCell extends Cell{
         if (growTime > 0) {
             growTime--;
         } else {
-            grid.setCell(new BushCell(x, y, grid));
+            grid.setCell(x, y, new BushCell(x, y, grid));
         }
     }
 
     // returns the burn time for grass
     public int getBurnTime(){
         return BURN_TIME;
+    }
+
+    // if plant catches fire 
+    public void catchFire() {
+        grid.setCell(x, y,new FireCell(x, y, grid, BURN_TIME));
     }
 }
