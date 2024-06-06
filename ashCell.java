@@ -4,8 +4,8 @@ public class ashCell extends FireCell{
     private int recoverTime;
 
     //Constructor
-    public ashCell(int x, int y, Grid grid){
-        super(x, y, grid, 0);
+    public ashCell(int x, int y, SimulationState simulation){
+        super(x, y, simulation, 0);
         recoverTime = 40;
     }
 
@@ -14,7 +14,7 @@ public class ashCell extends FireCell{
         if(recoverTime > 0){
             recoverTime--;
         } else {
-            grid.setCell(x, y, new GrassCell(x, y, grid));
+            simulation.setCell(x, y, new GrassCell(x, y, simulation));
         }
     }
 }

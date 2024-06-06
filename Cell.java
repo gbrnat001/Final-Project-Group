@@ -4,7 +4,7 @@
 public class Cell{
   protected int x;
   protected int y;
-  protected Grid grid;
+  protected SimulationState simulation;
   protected boolean isBurning;
   protected boolean isBurned;
   public int dryness;
@@ -14,10 +14,10 @@ public class Cell{
   }
 
   //constructor with the coordinates and grid reference
-  public Cell(int x, int y, Grid grid){
+  public Cell(int x, int y, SimulationState simulation){
     this.x = x;
     this.y = y;
-    this.grid = grid;
+    this.simulation = simulation;
     this.isBurning = false;
     this.isBurned = false;
     this.dryness = 50;

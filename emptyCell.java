@@ -3,7 +3,7 @@
 
 public class emptyCell extends Cell {
     //constructor 
-    public emptyCell(int x, int y, Grid grid) {
-        super(x, y, grid);
+    public emptyCell(int x, int y, SimulationState simulation) {
+        super(x, y, simulation);
     }
 }

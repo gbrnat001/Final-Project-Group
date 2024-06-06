@@ -3,8 +3,8 @@ public class TreeCell extends Cell{
     private static final int BURN_TIME = 15;
 
     //constructor 
-    public TreeCell(int x, int y, Grid grid) {
-        super(x, y, grid);
+    public TreeCell(int x, int y, SimulationState simulation) {
+        super(x, y, simulation);
     }
 
     //update method 
@@ -19,6 +19,6 @@ public class TreeCell extends Cell{
 
     // if plant catches fire 
     public void catchFire() {
-        grid.setCell(x, y,new FireCell(x, y, grid, BURN_TIME));
+        simulation.setCell(x, y,new FireCell(x, y, simulation, BURN_TIME));
     }
 }

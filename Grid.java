@@ -7,23 +7,14 @@ import java.util.TimerTask;
 
 public class Grid {
     private final int gridSize;
-    private int windSpeed;
-    private final int dryness;
-    private final int humidity;
-    private final int numFires;
+    private SimulationState simulation;
     private JFrame window;
-    private Cell[][] grid;
     private JPanel[][] gridPanel;
-    private final Random rand;
 
     //constructor for Grid, initializes grid properties and creates the grid
     public Grid(int gridSize, int windSpeed, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
-        this.windSpeed = windSpeed;
-        this.dryness = dryness;
-        this.humidity = humidity;
-        this.numFires = numFires;
-        this.rand = new Random();
+        this.simulation = new SimulationState(gridSize, windSpeed, dryness, humidity, numFires);
         makeGrid();
         startSimulation();
     }
@@ -34,39 +25,29 @@ public class Grid {
 
         window = new JFrame();
         window.setSize(gridSize * 50, gridSize * 50);
-        window.setLayout(new GridLayout(gridSize, gridSize, gap, gap));
+        window.setLayout(new BorderLayout());
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        grid = new Cell[gridSize][gridSize];
+        JPanel gridContainer = new JPanel(new GridLayout(gridSize, gridSize, gap, gap));
+        window.add(gridContainer, BorderLayout.CENTER);
+
         gridPanel = new JPanel[gridSize][gridSize];
+        Cell[][] grid = simulation.getGrid();
 
-        addGrass();
-        addFire();
-        window.setVisible(true);
-    }
-
-    //fill the grid with empty cells and set the panel background colors
-    private void addGrass(){
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                grid[i][j] = new GrassCell(i, j, this); // Grass cell creation
                 gridPanel[i][j] = new JPanel();
-                window.add(gridPanel[i][j]);
+                gridPanel[i][j].setBackground(getCellColor(grid[i][j]));
+                gridContainer.add(gridPanel[i][j]);
             }
         }
-    }
 
-    //Randomly place initial fires
-    private void addFire(){
-        for (int i = 0; i < numFires; i++) {
-            int x = rand.nextInt(gridSize);
-            int y = rand.nextInt(gridSize);
-            grid[x][y] = new FireCell(x, y, this, 10);
-        }
+        window.setVisible(true);
     }
 
     //update on each cell and refresh the display colors
     public void update() {
+        Cell[][] grid = simulation.getGrid();
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 grid[i][j].update();
@@ -100,49 +81,10 @@ public class Grid {
         }
     }
 
-    //gets cell at the specified coordinates, returns null if out of bounds
-    public Cell getCell(int x, int y) {
-        if (x >= 0 && x < gridSize && y >= 0 && y < gridSize) {
-            return grid[x][y];
-        } else {
-            return null;
-        }
-    }
-
-    //sets the cell at the specified coordinates
-    public void setCell(int x, int y, Cell cell) {
-        grid[x][y] = cell;
-        gridPanel[x][y].setBackground(getCellColor(cell));
-    }
-
-    private double calculateIgnitionChance(int humidity, int windSpeed, int dryness) {
-        double humidityDouble = (100.0 - humidity) / 100.0;
-        double windDouble = windSpeed / 10.0;
-        double drynessDouble = dryness / 100.0;
-
-        return humidityDouble * windDouble * drynessDouble;
-    }
 
     //get the burn time 
     public int getBurnTime() {
         return 1;
-    }
-
-    //get the wind speed 
-    public int getWindSpeed() {
-
-        return windSpeed;
-    }
-
-    //get the humidity 
-    public int getHumidity() {
-
-        return humidity;
-    }
-
-    // get the dryness
-    public int dryness(){
-        return dryness;
     }
 
     //timer tasks to periodically update the grid

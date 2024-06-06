@@ -5,8 +5,8 @@ public class BushCell extends Cell {
     private int growTime;
 
     //constructor 
-    public BushCell(int x, int y, Grid grid){
-        super(x, y, grid);
+    public BushCell(int x, int y, SimulationState simulation){
+        super(x, y, simulation);
         growTime = GROW_TIME;
     }
 
@@ -15,7 +15,7 @@ public class BushCell extends Cell {
         if (growTime > 0) {
             growTime--;
         } else {
-            grid.setCell(x, y, new TreeCell(x, y, grid));
+            simulation.setCell(x, y, new TreeCell(x, y, simulation));
         }
     }
 
@@ -26,6 +26,6 @@ public class BushCell extends Cell {
 
     // if plant catches fire 
     public void catchFire() {
-        grid.setCell(x, y,new FireCell(x, y, grid, BURN_TIME));
+        simulation.setCell(x, y,new FireCell(x, y, simulation, BURN_TIME));
     }
 }

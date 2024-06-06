@@ -5,8 +5,8 @@ public class FireCell extends Cell{
     private int chance;
 
     //constructor
-    public FireCell(int x, int y, Grid grid, int burnTime) {
-        super(x, y, grid);
+    public FireCell(int x, int y, SimulationState simulation, int burnTime) {
+        super(x, y, simulation);
         this.burnTime = burnTime;
         this.chance = chance;
     }
@@ -16,7 +16,7 @@ public class FireCell extends Cell{
         if (burnTime > 0) {
             burnTime--;
         } else {
-            grid.setCell(x, y, new ashCell(x, y, grid));
+            simulation.setCell(x, y, new ashCell(x, y, simulation));
         }
 
         //spread fire to adjacent cells
@@ -28,14 +28,14 @@ public class FireCell extends Cell{
 
     //spreads the fire to nearby plant cells, basing burn time on the passed variable
     private void spreadFire(int x, int y) {
-        Cell adjacentCell = grid.getCell(x, y);
+        Cell adjacentCell = simulation.getCell(x, y);
         if (adjacentCell != null && !adjacentCell.isBurning() && !adjacentCell.isBurned()) {
-            int humidity = grid.getHumidity();
-            int windSpeed = grid.getWindSpeed();
+            int humidity = simulation.getHumidity();
+            int windSpeed = simulation.getWindSpeed();
             int dryness = adjacentCell.getDryness();
 
             //Based off the chance, the cell might turn
-            double ignitionChance = calculateIgnitionChance(humidity, windSpeed, dryness, grid.getCell(x, y));
+            double ignitionChance = calculateIgnitionChance(humidity, windSpeed, dryness, simulation.getCell(x, y));
             if (Math.random() < ignitionChance) {
                 int burnTime = 10; //Arbitrary value needed for the setCell
                 if (adjacentCell instanceof GrassCell) {
@@ -45,7 +45,7 @@ public class FireCell extends Cell{
                 } else if (adjacentCell instanceof TreeCell) {
                     burnTime = ((TreeCell) adjacentCell).getBurnTime();
                 }
-                grid.setCell(x, y, new FireCell(x, y, grid, burnTime));
+                simulation.setCell(x, y, new FireCell(x, y, simulation, burnTime));
             }
         }
     }
