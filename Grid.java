@@ -1,4 +1,4 @@
-
+//Jasiah, Nathan, Alex. Project 2
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
@@ -6,23 +6,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Grid {
-    private int gridSize;
+    private final int gridSize;
     private int windSpeed;
-    private int windDirection;
-    private int humidity;
-    private int numFires;
+    private final int dryness;
+    private final int humidity;
+    private final int numFires;
     private JFrame window;
     private Cell[][] grid;
     private JPanel[][] gridPanel;
-    private final int gap = 2;
-    private Timer timer;
-    private Random rand;
+    private final Random rand;
 
     //constructor for Grid, initializes grid properties and creates the grid
-    public Grid(int gridSize, int windSpeed, int windDirection, int humidity, int numFires) {
+    public Grid(int gridSize, int windSpeed, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
         this.windSpeed = windSpeed;
-        this.windDirection = windDirection;
+        this.dryness = dryness;
         this.humidity = humidity;
         this.numFires = numFires;
         this.rand = new Random();
@@ -32,6 +30,8 @@ public class Grid {
 
     //sets up the grid with empty cells and some initial fires and plants 
     private void makeGrid() {
+        int gap = 2;
+
         window = new JFrame();
         window.setSize(gridSize * 50, gridSize * 50);
         window.setLayout(new GridLayout(gridSize, gridSize, gap, gap));
@@ -40,7 +40,13 @@ public class Grid {
         grid = new Cell[gridSize][gridSize];
         gridPanel = new JPanel[gridSize][gridSize];
 
-        //fill the grid with empty cells and set the panel background colors
+        addGrass();
+        addFire();
+        window.setVisible(true);
+    }
+
+    //fill the grid with empty cells and set the panel background colors
+    private void addGrass(){
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 grid[i][j] = new GrassCell(i, j, this); // Grass cell creation
@@ -48,18 +54,18 @@ public class Grid {
                 window.add(gridPanel[i][j]);
             }
         }
+    }
 
-        //randomly place initial fires
+    //Randomly place initial fires
+    private void addFire(){
         for (int i = 0; i < numFires; i++) {
             int x = rand.nextInt(gridSize);
             int y = rand.nextInt(gridSize);
             grid[x][y] = new FireCell(x, y, this, 10);
         }
-
-        window.setVisible(true);
     }
 
-    //uupdate on each cell and refresh the display colors
+    //update on each cell and refresh the display colors
     public void update() {
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
@@ -71,7 +77,7 @@ public class Grid {
 
     //starts the simulation with a timer to update the grid
     private void startSimulation() {
-        timer = new Timer();
+        Timer timer = new Timer();
         timer.schedule(new MyTimer(), 0, 500);
     }
 
@@ -80,15 +86,15 @@ public class Grid {
         if (cell instanceof emptyCell) {
             return Color.LIGHT_GRAY;
         } else if (cell instanceof GrassCell) {
-            return Color.GREEN;
+            return new Color(144, 238, 144);
         } else if (cell instanceof BushCell) {
-            return Color.ORANGE;
+            return new Color(34, 139, 34);
         } else if (cell instanceof TreeCell) {
-            return Color.PINK;
+            return new Color(0, 100, 0);
         } else if (cell instanceof ashCell) {
-            return Color.BLACK;
+            return new Color(105, 105, 105);
         } else if (cell instanceof FireCell) {
-            return Color.RED;
+            return new Color(255, 69, 9);
         } else {
             return Color.WHITE;
         }
@@ -109,27 +115,34 @@ public class Grid {
         gridPanel[x][y].setBackground(getCellColor(cell));
     }
 
-    //get the burn time 
-    public int getBurnTime() {
-        return 1;
+    private double calculateIgnitionChance(int humidity, int windSpeed, int dryness) {
+        double humidityDouble = (100.0 - humidity) / 100.0;
+        double windDouble = windSpeed / 10.0;
+        double drynessDouble = dryness / 100.0;
+
+        return humidityDouble * windDouble * drynessDouble;
     }
 
-    //get the wind direction 
-    public int windDirection() {
-
+    //get the burn time 
+    public int getBurnTime() {
         return 1;
     }
 
     //get the wind speed 
     public int getWindSpeed() {
 
-        return 1;
+        return windSpeed;
     }
 
     //get the humidity 
     public int getHumidity() {
 
-        return 100;
+        return humidity;
+    }
+
+    // get the dryness
+    public int dryness(){
+        return dryness;
     }
 
     //timer tasks to periodically update the grid
@@ -143,7 +156,7 @@ public class Grid {
 
     //main method for testing the Grid class
     public static void main(String[] args) {
-        Grid grid = new Grid(30, 5, 3, 40, 3);
+        Grid grid = new Grid(30, 1, 3, 40, 3);
         grid.update();
     }
 

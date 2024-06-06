@@ -1,11 +1,11 @@
 
 //makes the up cell left over from the vegetation cell set on fire 
-public class ashCell extends Cell{
+public class ashCell extends FireCell{
     private int recoverTime;
 
     //Constructor
     public ashCell(int x, int y, Grid grid){
-        super(x, y, grid);
+        super(x, y, grid, 0);
         recoverTime = 40;
     }
 

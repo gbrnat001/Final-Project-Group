@@ -5,16 +5,22 @@ public class Cell{
   protected int x;
   protected int y;
   protected Grid grid;
+  protected boolean isBurning;
+  protected boolean isBurned;
+  public int dryness;
 
   //default empty constructor 
   public Cell(){
   }
 
-  //construsctor with the coordinates and grid reference 
+  //constructor with the coordinates and grid reference
   public Cell(int x, int y, Grid grid){
     this.x = x;
     this.y = y;
     this.grid = grid;
+    this.isBurning = false;
+    this.isBurned = false;
+    this.dryness = 50;
   }
 
   //gets x coordinates 
@@ -27,8 +33,20 @@ public class Cell{
     return y;
   }
 
-  //empty update method that will be overriden the the subclasses 
+  //empty update method that will be overridden the subclasses
   public void update(){
 
+  }
+
+  public int getDryness(){
+    return dryness;
+  }
+
+  public boolean isBurning() {
+    return isBurning;
+  }
+
+  public boolean isBurned(){
+    return  isBurned;
   }
 }
