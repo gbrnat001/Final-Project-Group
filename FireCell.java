@@ -69,7 +69,7 @@ public class FireCell extends Cell{
         } else if (cell instanceof BushCell) {
             return chance * 1.25; // A little because more vegetation
         } else if (cell instanceof GrassCell) {
-            return chance * 0.5; // Even harder to burn
+            return chance * 1; // Even harder to burn
         } else if (cell instanceof ashCell) {
             return 0.0; // Impossible to burn
         } else {
