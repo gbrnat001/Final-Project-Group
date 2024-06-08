@@ -1,21 +1,34 @@
 //Jasiah, Nathan, Alex, Final Project 
 //Class: TreeCell
-//Puropse: Acts as a tree in the GUI, has a burn time and the basic cell variables
-
+//Purpose: Acts as a tree in the GUI, has a burn time and the basic cell variables
+/**
+ * The TreeCell class represents a cell in the simulation that contains a tree
+ */
 public class TreeCell extends Cell{
     private static final int BURN_TIME = 12;
 
-    //constructor 
+    /**
+     * Constructs a new TreeCell object.
+     *
+     * @param x the x coordinate of the cell
+     * @param y the y coordinate of the cell
+     * @param simulation the simulation state
+     */
     public TreeCell(int x, int y, SimulationState simulation) {
         super(x, y, simulation);
     }
 
-    // returns the burn time for trees 
+    /**
+     * Returns the burn time for trees
+     * @return the burn time for trees
+     */
     public int getBurnTime() {
         return BURN_TIME;
     }
 
-    // if plant catches fire 
+    /**
+     * Sets the cell on fire
+     */
     public void catchFire() {
         simulation.setCell(x, y,new FireCell(x, y, simulation, BURN_TIME));
     }
