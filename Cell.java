@@ -1,13 +1,11 @@
-
-//Creates the basic cell in the grid, with x and y coordinates 
+//Authors: Jasiah, Nathan, Alex, Final Project 
+//Class: Cell
+//Puropse: Creates the basic cell in the grid, with x and y coordinates
 
 public class Cell{
   protected int x;
   protected int y;
   protected SimulationState simulation;
-  protected boolean isBurning;
-  protected boolean isBurned;
-  public int dryness;
 
   //default empty constructor 
   public Cell(){
@@ -18,9 +16,6 @@ public class Cell{
     this.x = x;
     this.y = y;
     this.simulation = simulation;
-    this.isBurning = false;
-    this.isBurned = false;
-    this.dryness = 50;
   }
 
   //gets x coordinates 
@@ -36,17 +31,5 @@ public class Cell{
   //empty update method that will be overridden the subclasses
   public void update(){
 
-  }
-
-  public int getDryness(){
-    return dryness;
-  }
-
-  public boolean isBurning() {
-    return isBurning;
-  }
-
-  public boolean isBurned(){
-    return  isBurned;
   }
 }

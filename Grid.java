@@ -1,4 +1,7 @@
-//Jasiah, Nathan, Alex. Project 2
+//Jasiah, Nathan, Alex, Final Project 
+//Class: Grid
+//Puropse: The container for all of the cell classes, makes the grid for the GUI,
+//updates the grid with the timer, and intializes all of the cells with the right color
 import javax.swing.*;
 import java.awt.*;
 import java.util.Timer;
@@ -18,7 +21,7 @@ public class Grid {
     }
 
     private void makeGrid() {
-        int gap = 1;
+        int gap = 0;
 
         gridContainer = new JPanel(new GridLayout(gridSize, gridSize, gap, gap));
         gridPanel = new JPanel[gridSize][gridSize];
@@ -62,7 +65,7 @@ public class Grid {
         } else if (cell instanceof TreeCell) {
             return new Color(0, 100, 0);
         } else if (cell instanceof ashCell) {
-            return new Color(105, 105, 105);
+            return new Color(139, 69, 19);
         } else if (cell instanceof FireCell) {
             return new Color(255, 69, 0);
         } else {

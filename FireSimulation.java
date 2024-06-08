@@ -1,3 +1,8 @@
+//Jasiah, Nathan, Alex, Final Project 
+//Class: FireSimulation
+//Puropse: The main interaction with the GUI, holds all buttons and actionListener
+//calls the methods to update the grid constantly
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,11 +18,6 @@ public class FireSimulation {
         // Create a panel for input fields with FlowLayout for horizontal alignment
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         frame.add(inputPanel, BorderLayout.NORTH);
-
-        // Add input fields and labels to the panel
-        inputPanel.add(new JLabel("Grid Size:"));
-        JTextField gridSizeField = new JTextField("10", 5);
-        inputPanel.add(gridSizeField);
 
         inputPanel.add(new JLabel("Wind Speed:"));
         JTextField windSpeedField = new JTextField("5", 5);
@@ -54,25 +54,26 @@ public class FireSimulation {
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get the input values
-                int gridSize = Integer.parseInt(gridSizeField.getText());
+                // Fixed grid size
+                int gridSize = 100;
                 int windSpeed = Integer.parseInt(windSpeedField.getText());
                 String windDirection = windDirectionField.getText().trim().toUpperCase();
                 int dryness = Integer.parseInt(drynessField.getText());
                 int humidity = Integer.parseInt(humidityField.getText());
                 int numFires = Integer.parseInt(numFiresField.getText());
 
-                // Clear the previous grid panel
+                //clear the last panel
                 frame.remove(gridPanel);
 
-                // Create and add the new grid panel
-                Grid newGrid = new Grid(gridSize, windSpeed, windDirection, dryness, humidity, numFires);                frame.add(newGrid.getGridContainer(), BorderLayout.CENTER);
+                //create and add the new grid panel
+                Grid newGrid = new Grid(gridSize, windSpeed, windDirection, dryness, humidity, numFires);
+                frame.add(newGrid.getGridContainer(), BorderLayout.CENTER);
 
-                // Refresh the frame
+                //refresh frame
                 frame.revalidate();
                 frame.repaint();
 
-                // Start the simulation
+                //start/update the simulation
                 newGrid.update();
             }
         });

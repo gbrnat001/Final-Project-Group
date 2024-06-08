@@ -1,3 +1,6 @@
+//Jasiah, Nathan, Alex, Final Project 
+//Class: TreeCell
+//Puropse: Acts as a tree in the GUI, has a burn time and the basic cell variables
 
 public class TreeCell extends Cell{
     private static final int BURN_TIME = 5;
@@ -5,11 +8,6 @@ public class TreeCell extends Cell{
     //constructor 
     public TreeCell(int x, int y, SimulationState simulation) {
         super(x, y, simulation);
-    }
-
-    //update method 
-    public void update() {
-        
     }
 
     // returns the burn time for trees 

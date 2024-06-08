@@ -1,22 +1,12 @@
+//Jasiah, Nathan, Alex, Final Project 
+//Class: BushCell
+//Puropse: Acts as a bush in the GUI, has a burn time and the basic cell variables 
 
 public class BushCell extends Cell {
-    private static final int GROW_TIME = 35;
     private static final int BURN_TIME = 3;
-    private int growTime;
-
     //constructor 
     public BushCell(int x, int y, SimulationState simulation){
         super(x, y, simulation);
-        growTime = GROW_TIME;
-    }
-
-    //updates the amount of time left before a bush will become a tree 
-    public void update(){
-        if (growTime > 0) {
-            growTime--;
-        } else {
-            simulation.setCell(x, y, new TreeCell(x, y, simulation));
-        }
     }
 
     // returns the burn time for bushes

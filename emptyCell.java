@@ -1,5 +1,6 @@
-
-//A cell with no material in it 
+//Jasiah, Nathan, Alex, Final Project 
+//Class: EmptyCell
+//Puropse: An empty cell, has basic cell variables and function 
 
 public class emptyCell extends Cell {
     //constructor 

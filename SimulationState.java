@@ -1,4 +1,7 @@
-//
+//Jasiah, Nathan, Alex, Final Project 
+//Class: SimulationState
+//Puropse: Initalizes the GUI, and contains all the get methods for the entered values
+// Adds the vegetations, fires, and checks the bounds of the grid
 
 import java.util.Random;
 
@@ -12,11 +15,10 @@ public class SimulationState {
     private Cell[][] grid;
     private final Random rand;
 
-    // Constructor for Grid, initializes grid properties and creates the grid
     public SimulationState(int gridSize, int windSpeed, String windDirection, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
         this.windSpeed = windSpeed;
-        this.windDirection = windDirection;
+        this.windDirection = windDirection.toUpperCase(); // Ensure wind direction is uppercase
         this.dryness = dryness;
         this.humidity = humidity;
         this.numFires = numFires;
@@ -26,19 +28,28 @@ public class SimulationState {
 
     private void initializeGrid() {
         grid = new Cell[gridSize][gridSize];
-        addGrass();
+        addVegetation();
         addFire();
     }
 
-    private void addGrass() {
+    private void addVegetation() {
+        // Initialize the grid with grass, trees, and bushes randomly placed
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                grid[i][j] = new GrassCell(i, j, this);
+                double randVal = rand.nextDouble();
+                if (randVal < 0.7) {
+                    grid[i][j] = new GrassCell(i, j, this);
+                } else if (randVal < 0.85) {
+                    grid[i][j] = new BushCell(i, j, this);
+                } else {
+                    grid[i][j] = new TreeCell(i, j, this);
+                }
             }
         }
     }
 
     private void addFire() {
+        // Randomly place initial fires
         for (int i = 0; i < numFires; i++) {
             int x = rand.nextInt(gridSize);
             int y = rand.nextInt(gridSize);

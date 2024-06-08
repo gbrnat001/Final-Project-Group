@@ -1,4 +1,6 @@
-//
+//Jasiah, Nathan, Alex, Final Project 
+//Class: FireCell
+//Puropse: Acts as the fire for the GUI and handles the spread logic
 
 public class FireCell extends Cell {
     private int burnTime;
@@ -49,31 +51,59 @@ public class FireCell extends Cell {
     }
 
     private int calculateSpreadChance(int newX, int newY) {
-        int baseChance = 10; // Base chance to spread
+        int baseChance = 20; // Base chance to spread
         int humidity = simulation.getHumidity();
         int dryness = simulation.getDryness();
         int windSpeed = simulation.getWindSpeed();
         String windDirection = simulation.getWindDirection();
 
         // Adjust chance based on dryness and humidity
-        baseChance += dryness * 2;
-        baseChance -= humidity / 10;
+        baseChance += dryness * 3;
+        baseChance -= humidity / 3;
 
         // Adjust chance based on wind speed
         baseChance += windSpeed * 2;
 
-        // Adjust chance based on wind direction
-        if (windDirection.equals("N") && newY < y) { // Fire spreads north
-            baseChance += 30;
-        } else if (windDirection.equals("S") && newY > y) { // Fire spreads south
-            baseChance += 30;
-        } else if (windDirection.equals("E") && newX > x) { // Fire spreads east
-            baseChance += 30;
-        } else if (windDirection.equals("W") && newX < x) { // Fire spreads west
-            baseChance += 30;
-        } else {
-            baseChance -= 10; // Less likely to spread in other directions
+        // Adjust chance based on wind direction and wind speed
+        int dx = newX - x;
+        int dy = newY - y;
+        int windEffect = 0;
+
+        if (windDirection.equals("N")) {
+            if (dy < 0) { // Fire spreads north
+                windEffect = 50 + windSpeed * 10;
+            } else if (dy > 0) { // Fire spreads south
+                windEffect = -50 - windSpeed * 10;
+            } else { // Fire spreads east or west
+                windEffect = -10;
+            }
+        } else if (windDirection.equals("S")) {
+            if (dy > 0) { // Fire spreads south
+                windEffect = 50 + windSpeed * 10;
+            } else if (dy < 0) { // Fire spreads north
+                windEffect = -50 - windSpeed * 10;
+            } else { // Fire spreads east or west
+                windEffect = -10;
+            }
+        } else if (windDirection.equals("E")) {
+            if (dx > 0) { // Fire spreads east
+                windEffect = 50 + windSpeed * 10;
+            } else if (dx < 0) { // Fire spreads west
+                windEffect = -50 - windSpeed * 10;
+            } else { // Fire spreads north or south
+                windEffect = -10;
+            }
+        } else if (windDirection.equals("W")) {
+            if (dx < 0) { // Fire spreads west
+                windEffect = 50 + windSpeed * 10;
+            } else if (dx > 0) { // Fire spreads east
+                windEffect = -50 - windSpeed * 10;
+            } else { // Fire spreads north or south
+                windEffect = -10;
+            }
         }
+
+        baseChance += windEffect;
 
         // Ensure chance is within bounds
         if (baseChance < 0) {
@@ -85,3 +115,4 @@ public class FireCell extends Cell {
         return baseChance;
     }
 }
+

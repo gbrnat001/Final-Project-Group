@@ -1,9 +1,10 @@
-
-//makes the up cell left over from the vegetation cell set on fire 
+//Authors: Jasiah, Nathan, Alex; Final Project 
+//Class: ashCell
+//Purpose: makes the up cell left over from the vegetation cell set on fire 
 public class ashCell extends FireCell{
     private int recoverTime;
 
-    //Constructor
+    //constructor
     public ashCell(int x, int y, SimulationState simulation){
         super(x, y, simulation, 0);
         recoverTime = 100;
