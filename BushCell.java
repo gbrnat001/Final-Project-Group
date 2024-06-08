@@ -1,6 +1,6 @@
 
 public class BushCell extends Cell {
-    private static final int GROW_TIME = 20;
+    private static final int GROW_TIME = 200;
     private static final int BURN_TIME = 10;
     private int growTime;
 

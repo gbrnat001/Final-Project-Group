@@ -65,6 +65,9 @@ public class SimulationState {
         grid[x][y] = cell;
     }
 
+    public void setGrid(Cell[][] newGrid){
+        this.grid = newGrid;
+    }
     //get the humidity
     public int getHumidity() {
 

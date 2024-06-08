@@ -4,7 +4,7 @@ public class FireSimulation {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the grid size (e.g., 10 for a 10x10 grid):");
+        System.out.println("Enter the grid size (e.g., 100 for a 100x100 grid):");
         int gridSize = scanner.nextInt();
 
         System.out.println("Enter the wind speed (1-10, where 1 is low and 10 is high):");

@@ -1,15 +1,19 @@
 //Jasiah, Nathan, Alex. Project 2
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
+import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Grid {
     private final int gridSize;
-    private SimulationState simulation;
+    private final SimulationState simulation;
     private JFrame window;
-    private JPanel[][] gridPanel;
+    private BufferedImage img;
+    private JLabel label;
+    private Graphics g;
+    private final int cellSize = 10;
+    private Cell[][] grid;
 
     //constructor for Grid, initializes grid properties and creates the grid
     public Grid(int gridSize, int windSpeed, int dryness, int humidity, int numFires) {
@@ -24,21 +28,21 @@ public class Grid {
         int gap = 2;
 
         window = new JFrame();
-        window.setSize(gridSize * 50, gridSize * 50);
-        window.setLayout(new BorderLayout());
+        window.setSize(gridSize*cellSize, gridSize*cellSize);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel gridContainer = new JPanel(new GridLayout(gridSize, gridSize, gap, gap));
-        window.add(gridContainer, BorderLayout.CENTER);
 
-        gridPanel = new JPanel[gridSize][gridSize];
+        img = new BufferedImage(gridSize*cellSize, gridSize*cellSize, BufferedImage.TYPE_INT_BGR);
+        label = new JLabel(new ImageIcon(img));
+        window.add(label);
+
         Cell[][] grid = simulation.getGrid();
+        g = img.getGraphics();
 
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                gridPanel[i][j] = new JPanel();
-                gridPanel[i][j].setBackground(getCellColor(grid[i][j]));
-                gridContainer.add(gridPanel[i][j]);
+                g.setColor(getCellColor(grid[i][j]));
+                g.fillRect(i*cellSize, j*cellSize, 1, 1);
             }
         }
 
@@ -47,11 +51,31 @@ public class Grid {
 
     //update on each cell and refresh the display colors
     public void update() {
-        Cell[][] grid = simulation.getGrid();
+        grid = simulation.getGrid();
+        g = img.getGraphics();
+
+        Cell[][] newGrid = new Cell[gridSize][gridSize];
+
+        for(int i = 0; i < gridSize; i++){
+            for(int j = 0; j < gridSize; j++){
+                grid[i][j].update();
+                newGrid[i][j] = grid[i][j];
+            }
+        }
+        //Replace the old grid with the new updated Grid
+        simulation.setGrid(newGrid);
+
+        //Go through and get the colors and color the canvas
+        replaceUpdatedGrid();
+        label.repaint();
+    }
+
+    private void replaceUpdatedGrid(){
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 grid[i][j].update();
-                gridPanel[i][j].setBackground(getCellColor(grid[i][j]));
+                g.setColor(getCellColor(grid[i][j]));
+                g.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
             }
         }
     }
@@ -59,7 +83,7 @@ public class Grid {
     //starts the simulation with a timer to update the grid
     private void startSimulation() {
         Timer timer = new Timer();
-        timer.schedule(new MyTimer(), 0, 500);
+        timer.schedule(new MyTimer(), 0, 100);
     }
 
     //color for each cell type
@@ -98,8 +122,7 @@ public class Grid {
 
     //main method for testing the Grid class
     public static void main(String[] args) {
-        Grid grid = new Grid(30, 1, 3, 40, 3);
-        grid.update();
+        Grid grid = new Grid(100, 3, 3, 40, 3);
     }
 
 }
