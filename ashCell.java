@@ -1,16 +1,26 @@
 //Authors: Jasiah, Nathan, Alex; Final Project 
 //Class: ashCell
-//Purpose: makes the up cell left over from the vegetation cell set on fire 
+/**
+ * the ashCell represents a cell in the simulation made out of ash
+ */
 public class ashCell extends FireCell{
     private int recoverTime;
 
-    //constructor
+    /**
+     * Constructs a new ashCell object.
+     * @param x the x coordinate of the cell
+     * @param y the y coordinate of the cell
+     * @param simulation the simulation state
+     */
     public ashCell(int x, int y, SimulationState simulation){
         super(x, y, simulation, 0);
         recoverTime = 1000;
     }
 
-    //checks if the time it takes for the ash to recover into grass has passed
+    /**
+     * Updates the state of the ash cell.
+     * Checks to see if it should become grass again
+     */
     public void update(){
         if(recoverTime > 0){
             recoverTime--;

@@ -1,6 +1,6 @@
 //Jasiah, Nathan, Alex, Final Project 
 //Class: FireSimulation
-//Puropse: The main interaction with the GUI, holds all buttons and actionListener
+//Purpose: The main interaction with the GUI, holds all buttons and actionListener
 //calls the methods to update the grid constantly
 
 import javax.swing.*;
@@ -8,7 +8,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The FireSimulation class is the main class for interacting with the GUI.
+ * It holds all the buttons and action listeners, and calls the methods to update the grid constantly.
+ */
 public class FireSimulation {
+    /**
+     * The main method sets up the GUI for the fire simulation.
+     * It includes input fields for simulation parameters and a grid for displaying the simulation.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         //set up the window
         JFrame frame = new JFrame("Fire Simulation");

@@ -1,19 +1,31 @@
 //Jasiah, Nathan, Alex, Final Project 
 //Class: FireCell
-//Puropse: Acts as the fire for the GUI and handles the spread logic
-
+//Purpose: Acts as the fire for the GUI and handles the spread logic
+/**
+ * The FireCell class represents a cell in the simulation that is on fire.
+ */
 public class FireCell extends Cell {
     private int burnTime;
     private int spreadTime;
 
-    //constructor
+    /**
+     * Constructs a new FireCell object.
+     *
+     * @param x the x-coordinate of the cell
+     * @param y the y-coordinate of the cell
+     * @param simulation the simulation state
+     * @param burnTime the burn time of the fire
+     */
     public FireCell(int x, int y, SimulationState simulation, int burnTime) {
         super(x, y, simulation);
         this.burnTime = burnTime;
         this.spreadTime = 10;
     }
 
-    //updates to check if the fire should still burn or become ash
+    /**
+     * Updates the state of the fire cell.
+     * Checks if the fire should still burn or become ash.
+     */
     public void update() {
         if (burnTime > 0) {
             burnTime--;
@@ -30,7 +42,11 @@ public class FireCell extends Cell {
         }
     }
 
-    //uses the wind speed to deterime how fast fire should spread
+    /**
+     * Uses the wind speed to determine how fast fire should spread.
+     *
+     * @return true if the fire should spread, false otherwise
+     */
     private boolean fireSpreadTimer(){
         int windSpeed = simulation.getWindSpeed();
         if (spreadTime - windSpeed <= 0){
@@ -41,8 +57,12 @@ public class FireCell extends Cell {
         }
     }
 
-    // checks nearby cells for burnable material, calls the ignite chance
-    // and gets burntime from those cells
+    /**
+     * Spreads the fire to nearby plant cells, basing burn time on the passed variable.
+     *
+     * @param newX the x-coordinate of the adjacent cell
+     * @param newY the y-coordinate of the adjacent cell
+     */
     private void spreadFire(int newX, int newY) {
         if (simulation.inBounds(newX, newY)) {
             Cell targetCell = simulation.getCell(newX, newY);
@@ -67,7 +87,13 @@ public class FireCell extends Cell {
         }
     }
 
-    //calculates the chance the fire will spread based on the entered values 
+    /**
+     * Calculates the chance the fire will spread based on the entered values.
+     *
+     * @param newX the x-coordinate of the new cell
+     * @param newY the y-coordinate of the new cell
+     * @return the chance of the fire spreading
+     */
     private int calculateSpreadChance(int newX, int newY) {
         int baseChance = 40;
         int humidity = simulation.getHumidity();
