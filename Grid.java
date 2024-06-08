@@ -18,7 +18,7 @@ public class Grid {
     private BufferedImage img;
     private JLabel label;
     private Graphics g;
-    private final int cellSize = 10;
+    private final int cellSize = 9;
     private Cell[][] grid;
     private JPanel gridContainer;
 
