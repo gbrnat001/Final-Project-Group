@@ -36,7 +36,7 @@ public class FireCell extends Cell {
         if (spreadTime - windSpeed <= 0){
             return true;
         } else {
-            spreadTime --; 
+            spreadTime -= 2; 
             return false;
         }
     }
@@ -90,7 +90,7 @@ public class FireCell extends Cell {
             } else if (dy > 0) { //massivley damper chance fire spreads south
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads east or west
-                windEffect -= 5;
+                windEffect -= windSpeed * 3;
             }
         } else if (windDirection.equals("S")) {
             if (dy > 0) { // increase chance fire spreads south
@@ -98,7 +98,7 @@ public class FireCell extends Cell {
             } else if (dy < 0) { //massivley damper chance fire spreads north
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads east or west
-                windEffect -= 5;
+                windEffect -= windSpeed * 3;
             }
         } else if (windDirection.equals("E")) {
             if (dx > 0) { // increase chance fire spreads east
@@ -106,7 +106,7 @@ public class FireCell extends Cell {
             } else if (dx < 0) { //massivley damper chance fire spreads west
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads north or south
-                windEffect -= 5;
+                windEffect -= windSpeed * 3;
             }
         } else if (windDirection.equals("W")) {
             if (dx < 0) { // increase chance fire spreads west
@@ -114,7 +114,7 @@ public class FireCell extends Cell {
             } else if (dx > 0) { //massivley damper chance fire spreads east
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads north or south
-                windEffect -= 5;
+                windEffect -= windSpeed * 3;
             }
         }
 

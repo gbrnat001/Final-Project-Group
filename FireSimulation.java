@@ -48,7 +48,7 @@ public class FireSimulation {
         frame.add(gridPanel, BorderLayout.CENTER);
 
         //set the frame size and make it visible
-        frame.setSize(1100, 1100);
+        frame.setSize(1100, 1000);
         frame.setVisible(true);
 
         //add action listener to the run button to start new sim
