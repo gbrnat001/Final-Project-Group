@@ -5,13 +5,13 @@
 public class FireCell extends Cell {
     private int burnTime;
 
-    // Constructor
+    //constructor
     public FireCell(int x, int y, SimulationState simulation, int burnTime) {
         super(x, y, simulation);
         this.burnTime = burnTime;
     }
 
-    // Updates to check if the fire should still burn or become ash
+    //updates to check if the fire should still burn or become ash
     public void update() {
         if (burnTime > 0) {
             burnTime--;
@@ -19,13 +19,15 @@ public class FireCell extends Cell {
             simulation.setCell(x, y, new ashCell(x, y, simulation));
         }
 
-        // Spread fire to adjacent cells
+        //spread fire to adjacent cells
         spreadFire(x + 1, y);
         spreadFire(x - 1, y);
         spreadFire(x, y + 1);
         spreadFire(x, y - 1);
     }
 
+    // checks nearby cells for burnable material, calls the ignite chance
+    // and gets burntime from those cells
     private void spreadFire(int newX, int newY) {
         if (simulation.inBounds(newX, newY)) {
             Cell targetCell = simulation.getCell(newX, newY);
@@ -35,7 +37,7 @@ public class FireCell extends Cell {
                 if (simulation.getRand().nextInt(100) < spreadChance) {
                     int burnTime = 0;
 
-                    // Set specific burn time based on cell type
+                    //set specific burn time based on cell type
                     if (targetCell instanceof GrassCell) {
                         burnTime = ((GrassCell) targetCell).getBurnTime();
                     } else if (targetCell instanceof BushCell) {
@@ -50,62 +52,61 @@ public class FireCell extends Cell {
         }
     }
 
+    //calculates the chance the fire will spread based on the entered values 
     private int calculateSpreadChance(int newX, int newY) {
-        int baseChance = 20; // Base chance to spread
+        int baseChance = 20;
         int humidity = simulation.getHumidity();
         int dryness = simulation.getDryness();
         int windSpeed = simulation.getWindSpeed();
         String windDirection = simulation.getWindDirection();
 
-        // Adjust chance based on dryness and humidity
+        //adjusts chance based on dryness and humidity
         baseChance += dryness * 3;
         baseChance -= humidity / 3;
 
-        // Adjust chance based on wind speed
-        baseChance += windSpeed * 2;
-
-        // Adjust chance based on wind direction and wind speed
+        //adjust chance based on wind direction and wind speed combined
         int dx = newX - x;
         int dy = newY - y;
         int windEffect = 0;
 
         if (windDirection.equals("N")) {
-            if (dy < 0) { // Fire spreads north
-                windEffect = 50 + windSpeed * 10;
-            } else if (dy > 0) { // Fire spreads south
-                windEffect = -50 - windSpeed * 10;
-            } else { // Fire spreads east or west
-                windEffect = -10;
+            if (dx < 0) { //increase chance fire spreads north
+                windEffect = 10 + windSpeed * 5;
+            } else if (dx > 0) { //massivley damper chance fire spreads south
+                windEffect = -10 - windSpeed * 5;
+            } else { //slighty lower chance fire spreads east or west
+                windEffect -= 10;
             }
         } else if (windDirection.equals("S")) {
-            if (dy > 0) { // Fire spreads south
-                windEffect = 50 + windSpeed * 10;
-            } else if (dy < 0) { // Fire spreads north
-                windEffect = -50 - windSpeed * 10;
-            } else { // Fire spreads east or west
-                windEffect = -10;
+            if (dx > 0) { // increase chance fire spreads south
+                windEffect = 10 + windSpeed * 5;
+            } else if (dx < 0) { //massivley damper chance fire spreads north
+                windEffect = -10 - windSpeed * 5;
+            } else { //slighty lower chance fire spreads east or west
+                windEffect -= 10;
             }
         } else if (windDirection.equals("E")) {
-            if (dx > 0) { // Fire spreads east
-                windEffect = 50 + windSpeed * 10;
-            } else if (dx < 0) { // Fire spreads west
-                windEffect = -50 - windSpeed * 10;
-            } else { // Fire spreads north or south
-                windEffect = -10;
+            if (dy > 0) { // increase chance fire spreads east
+                windEffect = 10 + windSpeed * 5;
+            } else if (dy < 0) { //massivley damper chance fire spreads west
+                windEffect = -10 - windSpeed * 5;
+            } else { //slighty lower chance fire spreads north or south
+                windEffect -= 10;
             }
         } else if (windDirection.equals("W")) {
-            if (dx < 0) { // Fire spreads west
-                windEffect = 50 + windSpeed * 10;
-            } else if (dx > 0) { // Fire spreads east
-                windEffect = -50 - windSpeed * 10;
-            } else { // Fire spreads north or south
-                windEffect = -10;
+            if (dy < 0) { // increase chance fire spreads west
+                windEffect = 10 + windSpeed * 5;
+            } else if (dy > 0) { //massivley damper chance fire spreads east
+                windEffect = -10 - windSpeed * 5;
+            } else { //slighty lower chance fire spreads north or south
+                windEffect -= 10;
             }
         }
 
+        //add the wind effect to the chance
         baseChance += windEffect;
 
-        // Ensure chance is within bounds
+        //make sure chance is within bounds
         if (baseChance < 0) {
             baseChance = 0;
         } else if (baseChance > 100) {
