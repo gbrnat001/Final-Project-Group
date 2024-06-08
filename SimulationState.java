@@ -1,21 +1,22 @@
-import javax.swing.*;
+//
+
 import java.util.Random;
 
 public class SimulationState {
     private final int gridSize;
-    private int windSpeed;
+    private final int windSpeed;
+    private final String windDirection;
     private final int dryness;
     private final int humidity;
     private final int numFires;
-    private JFrame window;
     private Cell[][] grid;
-    private JPanel[][] gridPanel;
     private final Random rand;
 
-    //constructor for Grid, initializes grid properties and creates the grid
-    public SimulationState(int gridSize, int windSpeed, int dryness, int humidity, int numFires) {
+    // Constructor for Grid, initializes grid properties and creates the grid
+    public SimulationState(int gridSize, int windSpeed, String windDirection, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
         this.windSpeed = windSpeed;
+        this.windDirection = windDirection;
         this.dryness = dryness;
         this.humidity = humidity;
         this.numFires = numFires;
@@ -23,14 +24,13 @@ public class SimulationState {
         initializeGrid();
     }
 
-    private void initializeGrid(){
+    private void initializeGrid() {
         grid = new Cell[gridSize][gridSize];
         addGrass();
         addFire();
     }
 
-    //fill the grid with empty cells and set the panel background colors
-    private void addGrass(){
+    private void addGrass() {
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 grid[i][j] = new GrassCell(i, j, this);
@@ -38,8 +38,7 @@ public class SimulationState {
         }
     }
 
-    //Randomly place initial fires
-    private void addFire(){
+    private void addFire() {
         for (int i = 0; i < numFires; i++) {
             int x = rand.nextInt(gridSize);
             int y = rand.nextInt(gridSize);
@@ -47,43 +46,43 @@ public class SimulationState {
         }
     }
 
-    public boolean inBounds(int x, int y){
-        if(x >= 0 && x < gridSize && y >= 0 &&  y < gridSize){
-            return true;
-        }
-        return false;
+    public boolean inBounds(int x, int y) {
+        return x >= 0 && x < gridSize && y >= 0 && y < gridSize;
     }
 
-    public Cell getCell(int x, int y){
-        if(inBounds(x, y)){
+    public Cell getCell(int x, int y) {
+        if (inBounds(x, y)) {
             return grid[x][y];
         }
         return null;
     }
 
-    public void setCell(int x, int y, Cell cell){
+    public void setCell(int x, int y, Cell cell) {
         grid[x][y] = cell;
     }
 
-    //get the humidity
     public int getHumidity() {
-
         return humidity;
     }
 
-    // get the dryness
-    public int dryness(){
+    public int getDryness() {
         return dryness;
     }
 
-    //get the wind speed
     public int getWindSpeed() {
-
         return windSpeed;
     }
 
-    public Cell[][] getGrid(){
+    public String getWindDirection() {
+        return windDirection;
+    }
+
+    public Cell[][] getGrid() {
         return grid;
+    }
+
+    public Random getRand() {
+        return rand;
     }
 }
 

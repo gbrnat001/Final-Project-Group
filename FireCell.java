@@ -1,17 +1,15 @@
+//
 
-// Fire cell that
-public class FireCell extends Cell{
+public class FireCell extends Cell {
     private int burnTime;
-    private int chance;
 
-    //constructor
+    // Constructor
     public FireCell(int x, int y, SimulationState simulation, int burnTime) {
         super(x, y, simulation);
         this.burnTime = burnTime;
-        this.chance = chance;
     }
 
-    //updates to check if the fire should still burn or become ash
+    // Updates to check if the fire should still burn or become ash
     public void update() {
         if (burnTime > 0) {
             burnTime--;
@@ -19,62 +17,71 @@ public class FireCell extends Cell{
             simulation.setCell(x, y, new ashCell(x, y, simulation));
         }
 
-        //spread fire to adjacent cells
+        // Spread fire to adjacent cells
         spreadFire(x + 1, y);
         spreadFire(x - 1, y);
         spreadFire(x, y + 1);
         spreadFire(x, y - 1);
     }
 
-    //spreads the fire to nearby plant cells, basing burn time on the passed variable
-    private void spreadFire(int x, int y) {
-        Cell adjacentCell = simulation.getCell(x, y);
-        if (adjacentCell != null && !adjacentCell.isBurning() && !adjacentCell.isBurned()) {
-            int humidity = simulation.getHumidity();
-            int windSpeed = simulation.getWindSpeed();
-            int dryness = adjacentCell.getDryness();
+    private void spreadFire(int newX, int newY) {
+        if (simulation.inBounds(newX, newY)) {
+            Cell targetCell = simulation.getCell(newX, newY);
 
-            //Based off the chance, the cell might turn
-            double ignitionChance = calculateIgnitionChance(humidity, windSpeed, dryness, simulation.getCell(x, y));
-            if (Math.random() < ignitionChance) {
-                int burnTime = 10; //Arbitrary value needed for the setCell
-                if (adjacentCell instanceof GrassCell) {
-                    burnTime = ((GrassCell) adjacentCell).getBurnTime();
-                } else if (adjacentCell instanceof BushCell) {
-                    burnTime = ((BushCell) adjacentCell).getBurnTime();
-                } else if (adjacentCell instanceof TreeCell) {
-                    burnTime = ((TreeCell) adjacentCell).getBurnTime();
+            if (targetCell instanceof GrassCell || targetCell instanceof BushCell || targetCell instanceof TreeCell) {
+                int spreadChance = calculateSpreadChance(newX, newY);
+                if (simulation.getRand().nextInt(100) < spreadChance) {
+                    int burnTime = 0;
+
+                    // Set specific burn time based on cell type
+                    if (targetCell instanceof GrassCell) {
+                        burnTime = ((GrassCell) targetCell).getBurnTime();
+                    } else if (targetCell instanceof BushCell) {
+                        burnTime = ((BushCell) targetCell).getBurnTime();
+                    } else if (targetCell instanceof TreeCell) {
+                        burnTime = ((TreeCell) targetCell).getBurnTime();
+                    }
+
+                    simulation.setCell(newX, newY, new FireCell(newX, newY, simulation, burnTime));
                 }
-                simulation.setCell(x, y, new FireCell(x, y, simulation, burnTime));
             }
         }
     }
 
-    //Based on the humidity, windSpeed, and dryness, the method calculates the chance that the cell
-    //will be burned in the next turn. For the 3 values the range of low-high is
-    // 0-100 percent humidity
-    // 1-10 level of windSpeed
-    // 1-10 level of dryness
-    private double calculateIgnitionChance(int humidity, int windSpeed, int dryness, Cell cell) {
-        double humidityFactor = (100.0 - humidity) / 100.0;
-        double windFactor = windSpeed / 10.0;
-        double drynessFactor = dryness / 100.0;
+    private int calculateSpreadChance(int newX, int newY) {
+        int baseChance = 10; // Base chance to spread
+        int humidity = simulation.getHumidity();
+        int dryness = simulation.getDryness();
+        int windSpeed = simulation.getWindSpeed();
+        String windDirection = simulation.getWindDirection();
 
-        double chance = humidityFactor * windFactor * drynessFactor;
+        // Adjust chance based on dryness and humidity
+        baseChance += dryness * 2;
+        baseChance -= humidity / 10;
 
-        // Changes the chance depending on the amount of vegetation
-        //Easier for tree, a little
-        if (cell instanceof TreeCell) {
-            return chance * 2; // Easier to burn because more vegetation
-        } else if (cell instanceof BushCell) {
-            return chance * 1.25; // A little because more vegetation
-        } else if (cell instanceof GrassCell) {
-            return chance * 1; // Even harder to burn
-        } else if (cell instanceof ashCell) {
-            return 0.0; // Impossible to burn
+        // Adjust chance based on wind speed
+        baseChance += windSpeed * 2;
+
+        // Adjust chance based on wind direction
+        if (windDirection.equals("N") && newY < y) { // Fire spreads north
+            baseChance += 30;
+        } else if (windDirection.equals("S") && newY > y) { // Fire spreads south
+            baseChance += 30;
+        } else if (windDirection.equals("E") && newX > x) { // Fire spreads east
+            baseChance += 30;
+        } else if (windDirection.equals("W") && newX < x) { // Fire spreads west
+            baseChance += 30;
         } else {
-            return chance;
+            baseChance -= 10; // Less likely to spread in other directions
         }
-    }
 
+        // Ensure chance is within bounds
+        if (baseChance < 0) {
+            baseChance = 0;
+        } else if (baseChance > 100) {
+            baseChance = 100;
+        }
+
+        return baseChance;
+    }
 }

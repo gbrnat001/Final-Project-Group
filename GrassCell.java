@@ -1,8 +1,8 @@
 
 //A cell with grass
 public class GrassCell extends Cell{
-    private static final int GROW_TIME = 15;
-    private static final int BURN_TIME = 5;
+    private static final int GROW_TIME = 25;
+    private static final int BURN_TIME = 2;
     private int growTime;
 
     //constructor 

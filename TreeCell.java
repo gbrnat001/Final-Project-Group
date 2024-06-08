@@ -1,6 +1,6 @@
 
 public class TreeCell extends Cell{
-    private static final int BURN_TIME = 15;
+    private static final int BURN_TIME = 5;
 
     //constructor 
     public TreeCell(int x, int y, SimulationState simulation) {
