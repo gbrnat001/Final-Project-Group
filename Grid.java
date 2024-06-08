@@ -4,16 +4,21 @@
 //updates the grid with the timer, and intializes all of the cells with the right color
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Grid {
     private final int gridSize;
-    private SimulationState simulation;
+    private final SimulationState simulation;
+    private BufferedImage img;
+    private JLabel label;
+    private Graphics g;
+    private final int cellSize = 10;
+    private Cell[][] grid;
     private JPanel gridContainer;
-    private JPanel[][] gridPanel;
 
-    //constructor
+    // Constructor
     public Grid(int gridSize, int windSpeed, String windDirection, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
         this.simulation = new SimulationState(gridSize, windSpeed, windDirection, dryness, humidity, numFires);
@@ -21,46 +26,69 @@ public class Grid {
         startSimulation();
     }
 
-    //makes the grid, and enters the correct colors
+    // Makes the grid and enters the correct colors
     private void makeGrid() {
-        int gap = 0;
+        gridContainer = new JPanel();
+        gridContainer.setPreferredSize(new Dimension(gridSize * cellSize, gridSize * cellSize));
 
-        gridContainer = new JPanel(new GridLayout(gridSize, gridSize, gap, gap));
-        gridPanel = new JPanel[gridSize][gridSize];
+        img = new BufferedImage(gridSize * cellSize, gridSize * cellSize, BufferedImage.TYPE_INT_BGR);
+        label = new JLabel(new ImageIcon(img));
+        gridContainer.add(label);
+
         Cell[][] grid = simulation.getGrid();
+        g = img.getGraphics();
 
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
-                gridPanel[i][j] = new JPanel();
-                gridPanel[i][j].setBackground(getCellColor(grid[i][j]));
-                gridContainer.add(gridPanel[i][j]);
+                g.setColor(getCellColor(grid[i][j]));
+                g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             }
         }
     }
 
-    //gets the container 
+    // Gets the container
     public JPanel getGridContainer() {
         return gridContainer;
     }
 
-    //updates each cell accoriding to the timer
+    // Updates each cell according to the timer
     public void update() {
-        Cell[][] grid = simulation.getGrid();
+        grid = simulation.getGrid();
+        g = img.getGraphics();
+
+        Cell[][] newGrid = new Cell[gridSize][gridSize];
+
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 grid[i][j].update();
-                gridPanel[i][j].setBackground(getCellColor(grid[i][j]));
+                newGrid[i][j] = grid[i][j];
+            }
+        }
+        // Replace the old grid with the new updated Grid
+        simulation.setGrid(newGrid);
+
+        // Go through and get the colors and color the canvas
+        replaceUpdatedGrid();
+        label.repaint();
+    }
+
+    private void replaceUpdatedGrid() {
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                grid[i][j].update();
+                g.setColor(getCellColor(grid[i][j]));
+                g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             }
         }
     }
 
-    //starts the simulation
+    // Starts the simulation
     private void startSimulation() {
         Timer timer = new Timer();
-        timer.schedule(new MyTimer(), 0, 500);
+        timer.schedule(new MyTimer(), 0, 100);
     }
 
-    //returns the right color for each cell 
+    // Returns the right color for each cell
     private Color getCellColor(Cell cell) {
         if (cell instanceof emptyCell) {
             return Color.LIGHT_GRAY;
@@ -81,7 +109,7 @@ public class Grid {
         }
     }
 
-    //the timer that calls the update 
+    // The timer that calls the update
     private class MyTimer extends TimerTask {
         public void run() {
             update();

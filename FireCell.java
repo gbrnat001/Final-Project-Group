@@ -70,33 +70,33 @@ public class FireCell extends Cell {
         int windEffect = 0;
 
         if (windDirection.equals("N")) {
-            if (dx < 0) { //increase chance fire spreads north
+            if (dy < 0) { //increase chance fire spreads north
                 windEffect = 10 + windSpeed * 5;
-            } else if (dx > 0) { //massivley damper chance fire spreads south
+            } else if (dy > 0) { //massivley damper chance fire spreads south
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads east or west
                 windEffect -= 5;
             }
         } else if (windDirection.equals("S")) {
-            if (dx > 0) { // increase chance fire spreads south
+            if (dy > 0) { // increase chance fire spreads south
                 windEffect = 10 + windSpeed * 5;
-            } else if (dx < 0) { //massivley damper chance fire spreads north
+            } else if (dy < 0) { //massivley damper chance fire spreads north
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads east or west
                 windEffect -= 5;
             }
         } else if (windDirection.equals("E")) {
-            if (dy > 0) { // increase chance fire spreads east
+            if (dx > 0) { // increase chance fire spreads east
                 windEffect = 10 + windSpeed * 5;
-            } else if (dy < 0) { //massivley damper chance fire spreads west
+            } else if (dx < 0) { //massivley damper chance fire spreads west
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads north or south
                 windEffect -= 5;
             }
         } else if (windDirection.equals("W")) {
-            if (dy < 0) { // increase chance fire spreads west
+            if (dx < 0) { // increase chance fire spreads west
                 windEffect = 10 + windSpeed * 5;
-            } else if (dy > 0) { //massivley damper chance fire spreads east
+            } else if (dx > 0) { //massivley damper chance fire spreads east
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads north or south
                 windEffect -= 5;

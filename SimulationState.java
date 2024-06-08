@@ -19,7 +19,7 @@ public class SimulationState {
     public SimulationState(int gridSize, int windSpeed, String windDirection, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
         this.windSpeed = windSpeed;
-        this.windDirection = windDirection.toUpperCase(); // Ensure wind direction is uppercase
+        this.windDirection = windDirection.toUpperCase();
         this.dryness = dryness;
         this.humidity = humidity;
         this.numFires = numFires;
@@ -80,7 +80,10 @@ public class SimulationState {
         grid[x][y] = cell;
     }
 
-    //gets humidity 
+    public void setGrid(Cell[][] newGrid){
+        this.grid = newGrid;
+    }
+    //get the humidity
     public int getHumidity() {
         return humidity;
     }
