@@ -10,12 +10,12 @@ import java.awt.event.ActionListener;
 
 public class FireSimulation {
     public static void main(String[] args) {
-        // Create and set up the window
+        //set up the window
         JFrame frame = new JFrame("Fire Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Create a panel for input fields with FlowLayout for horizontal alignment
+        //panel for input fields with FlowLayout for horizontal alignment
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         frame.add(inputPanel, BorderLayout.NORTH);
 
@@ -42,19 +42,18 @@ public class FireSimulation {
         JButton runButton = new JButton("Run");
         inputPanel.add(runButton);
 
-        // Create a panel for the simulation grid
+        //panel for the simulation grid
         JPanel gridPanel = new JPanel();
         frame.add(gridPanel, BorderLayout.CENTER);
 
-        // Set the frame size and make it visible
-        frame.setSize(1200, 800);
+        //s the frame size and make it visible
+        frame.setSize(1200, 1000);
         frame.setVisible(true);
 
-        // Add action listener to the run button
+        //add action listener to the run button
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Fixed grid size
                 int gridSize = 100;
                 int windSpeed = Integer.parseInt(windSpeedField.getText());
                 String windDirection = windDirectionField.getText().trim().toUpperCase();

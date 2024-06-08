@@ -3,7 +3,7 @@
 //Puropse: Acts as a bush in the GUI, has a burn time and the basic cell variables 
 
 public class BushCell extends Cell {
-    private static final int BURN_TIME = 3;
+    private static final int BURN_TIME = 10;
     //constructor 
     public BushCell(int x, int y, SimulationState simulation){
         super(x, y, simulation);

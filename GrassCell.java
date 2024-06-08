@@ -3,7 +3,7 @@
 //Puropse: Acts as grass in the GUI, has a burn time and the basic cell variables
 
 public class GrassCell extends Cell{
-    private static final int BURN_TIME = 2;
+    private static final int BURN_TIME = 7;
 
     //constructor 
     public GrassCell(int x, int y, SimulationState simulation){

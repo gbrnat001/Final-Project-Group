@@ -7,7 +7,7 @@ public class ashCell extends FireCell{
     //constructor
     public ashCell(int x, int y, SimulationState simulation){
         super(x, y, simulation, 0);
-        recoverTime = 200;
+        recoverTime = 1000;
     }
 
     //checks if the time it takes for the ash to recover into grass has passed

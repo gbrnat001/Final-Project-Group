@@ -3,7 +3,7 @@
 //Puropse: Acts as a tree in the GUI, has a burn time and the basic cell variables
 
 public class TreeCell extends Cell{
-    private static final int BURN_TIME = 5;
+    private static final int BURN_TIME = 12;
 
     //constructor 
     public TreeCell(int x, int y, SimulationState simulation) {

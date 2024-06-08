@@ -4,11 +4,13 @@
 
 public class FireCell extends Cell {
     private int burnTime;
+    private int spreadTime;
 
     //constructor
     public FireCell(int x, int y, SimulationState simulation, int burnTime) {
         super(x, y, simulation);
         this.burnTime = burnTime;
+        this.spreadTime = 10;
     }
 
     //updates to check if the fire should still burn or become ash
@@ -19,11 +21,24 @@ public class FireCell extends Cell {
             simulation.setCell(x, y, new ashCell(x, y, simulation));
         }
 
-        //spread fire to adjacent cells
-        spreadFire(x + 1, y);
-        spreadFire(x - 1, y);
-        spreadFire(x, y + 1);
-        spreadFire(x, y - 1);
+        //spread fire to adjacent cells based on the windSpeed
+        if (fireSpreadTimer()){
+            spreadFire(x + 1, y);
+            spreadFire(x - 1, y);
+            spreadFire(x, y + 1);
+            spreadFire(x, y - 1);
+        }
+    }
+
+    //uses the wind speed to deterime how fast fire should spread
+    private boolean fireSpreadTimer(){
+        int windSpeed = simulation.getWindSpeed();
+        if (spreadTime - windSpeed <= 0){
+            return true;
+        } else {
+            spreadTime --; 
+            return false;
+        }
     }
 
     // checks nearby cells for burnable material, calls the ignite chance
