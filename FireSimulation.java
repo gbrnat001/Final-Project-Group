@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class FireSimulation {
+    private static Grid currentGrid;
     public static void main(String[] args) {
         //set up the window
         JFrame frame = new JFrame("Fire Simulation");
@@ -39,18 +40,18 @@ public class FireSimulation {
         JTextField numFiresField = new JTextField("1", 5);
         inputPanel.add(numFiresField);
 
-        JButton runButton = new JButton("Run");
+        JButton runButton = new JButton("Run/Reset");
         inputPanel.add(runButton);
 
         //panel for the simulation grid
         JPanel gridPanel = new JPanel();
         frame.add(gridPanel, BorderLayout.CENTER);
 
-        //s the frame size and make it visible
-        frame.setSize(1200, 1000);
+        //set the frame size and make it visible
+        frame.setSize(1100, 1100);
         frame.setVisible(true);
 
-        //add action listener to the run button
+        //add action listener to the run button to start new sim
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,19 +62,15 @@ public class FireSimulation {
                 int humidity = Integer.parseInt(humidityField.getText());
                 int numFires = Integer.parseInt(numFiresField.getText());
 
-                //clear the last panel
-                frame.remove(gridPanel);
+                //clear the grid panel
+                gridPanel.removeAll();
+                gridPanel.revalidate();
+                gridPanel.repaint();
 
-                //create and add the new grid panel
-                Grid newGrid = new Grid(gridSize, windSpeed, windDirection, dryness, humidity, numFires);
-                frame.add(newGrid.getGridContainer(), BorderLayout.CENTER);
-
-                //refresh frame
-                frame.revalidate();
-                frame.repaint();
-
-                //start/update the simulation
-                newGrid.update();
+                //create a new grid
+                currentGrid = new Grid(gridSize, windSpeed, windDirection, dryness, humidity, numFires);
+                gridPanel.add(currentGrid.getGridContainer());
+                currentGrid.update();
             }
         });
     }

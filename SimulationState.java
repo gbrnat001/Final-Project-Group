@@ -28,7 +28,7 @@ public class SimulationState {
     }
 
     //initalizes the grid with vegetation and fire
-    private void initializeGrid() {
+    public void initializeGrid() {
         grid = new Cell[gridSize][gridSize];
         addVegetation();
         addFire();

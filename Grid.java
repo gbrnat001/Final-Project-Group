@@ -17,8 +17,13 @@ public class Grid {
     private final int cellSize = 10;
     private Cell[][] grid;
     private JPanel gridContainer;
+    
+    public Grid(){
+        this.gridSize = 100;
+        this.simulation = null;
+    }
 
-    // Constructor
+    //constructor
     public Grid(int gridSize, int windSpeed, String windDirection, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
         this.simulation = new SimulationState(gridSize, windSpeed, windDirection, dryness, humidity, numFires);
@@ -26,7 +31,7 @@ public class Grid {
         startSimulation();
     }
 
-    // Makes the grid and enters the correct colors
+    //makes the grid and enters the correct colors
     private void makeGrid() {
         gridContainer = new JPanel();
         gridContainer.setPreferredSize(new Dimension(gridSize * cellSize, gridSize * cellSize));
@@ -46,12 +51,12 @@ public class Grid {
         }
     }
 
-    // Gets the container
+    //gets the container
     public JPanel getGridContainer() {
         return gridContainer;
     }
-
-    // Updates each cell according to the timer
+    
+    //updates each cell according to the timer
     public void update() {
         grid = simulation.getGrid();
         g = img.getGraphics();
@@ -64,14 +69,15 @@ public class Grid {
                 newGrid[i][j] = grid[i][j];
             }
         }
-        // Replace the old grid with the new updated Grid
+        //replace the old grid with the new updated Grid
         simulation.setGrid(newGrid);
 
-        // Go through and get the colors and color the canvas
+        // go through and get the colors and color the canvas
         replaceUpdatedGrid();
         label.repaint();
     }
 
+    //the replacment grid 
     private void replaceUpdatedGrid() {
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
@@ -82,13 +88,13 @@ public class Grid {
         }
     }
 
-    // Starts the simulation
+    //starts the simulation
     private void startSimulation() {
         Timer timer = new Timer();
         timer.schedule(new MyTimer(), 0, 100);
     }
 
-    // Returns the right color for each cell
+    //returns the right color for each cell
     private Color getCellColor(Cell cell) {
         if (cell instanceof emptyCell) {
             return Color.LIGHT_GRAY;
@@ -109,7 +115,7 @@ public class Grid {
         }
     }
 
-    // The timer that calls the update
+    //timer that calls the update
     private class MyTimer extends TimerTask {
         public void run() {
             update();
