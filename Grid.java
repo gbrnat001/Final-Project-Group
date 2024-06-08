@@ -13,6 +13,7 @@ public class Grid {
     private JPanel gridContainer;
     private JPanel[][] gridPanel;
 
+    //constructor
     public Grid(int gridSize, int windSpeed, String windDirection, int dryness, int humidity, int numFires) {
         this.gridSize = gridSize;
         this.simulation = new SimulationState(gridSize, windSpeed, windDirection, dryness, humidity, numFires);
@@ -20,6 +21,7 @@ public class Grid {
         startSimulation();
     }
 
+    //makes the grid, and enters the correct colors
     private void makeGrid() {
         int gap = 0;
 
@@ -36,10 +38,12 @@ public class Grid {
         }
     }
 
+    //gets the container 
     public JPanel getGridContainer() {
         return gridContainer;
     }
 
+    //updates each cell accoriding to the timer
     public void update() {
         Cell[][] grid = simulation.getGrid();
         for (int i = 0; i < gridSize; i++) {
@@ -50,11 +54,13 @@ public class Grid {
         }
     }
 
+    //starts the simulation
     private void startSimulation() {
         Timer timer = new Timer();
         timer.schedule(new MyTimer(), 0, 500);
     }
 
+    //returns the right color for each cell 
     private Color getCellColor(Cell cell) {
         if (cell instanceof emptyCell) {
             return Color.LIGHT_GRAY;
@@ -68,11 +74,14 @@ public class Grid {
             return new Color(139, 69, 19);
         } else if (cell instanceof FireCell) {
             return new Color(255, 69, 0);
+        } else if (cell instanceof RockCell) {
+            return Color.LIGHT_GRAY;
         } else {
             return Color.WHITE;
         }
     }
 
+    //the timer that calls the update 
     private class MyTimer extends TimerTask {
         public void run() {
             update();

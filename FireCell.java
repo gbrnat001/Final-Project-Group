@@ -54,7 +54,7 @@ public class FireCell extends Cell {
 
     //calculates the chance the fire will spread based on the entered values 
     private int calculateSpreadChance(int newX, int newY) {
-        int baseChance = 20;
+        int baseChance = 40;
         int humidity = simulation.getHumidity();
         int dryness = simulation.getDryness();
         int windSpeed = simulation.getWindSpeed();
@@ -75,7 +75,7 @@ public class FireCell extends Cell {
             } else if (dx > 0) { //massivley damper chance fire spreads south
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads east or west
-                windEffect -= 10;
+                windEffect -= 5;
             }
         } else if (windDirection.equals("S")) {
             if (dx > 0) { // increase chance fire spreads south
@@ -83,7 +83,7 @@ public class FireCell extends Cell {
             } else if (dx < 0) { //massivley damper chance fire spreads north
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads east or west
-                windEffect -= 10;
+                windEffect -= 5;
             }
         } else if (windDirection.equals("E")) {
             if (dy > 0) { // increase chance fire spreads east
@@ -91,7 +91,7 @@ public class FireCell extends Cell {
             } else if (dy < 0) { //massivley damper chance fire spreads west
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads north or south
-                windEffect -= 10;
+                windEffect -= 5;
             }
         } else if (windDirection.equals("W")) {
             if (dy < 0) { // increase chance fire spreads west
@@ -99,7 +99,7 @@ public class FireCell extends Cell {
             } else if (dy > 0) { //massivley damper chance fire spreads east
                 windEffect = -10 - windSpeed * 5;
             } else { //slighty lower chance fire spreads north or south
-                windEffect -= 10;
+                windEffect -= 5;
             }
         }
 
