@@ -1,7 +1,7 @@
 //Jasiah, Nathan, Alex, Final Project 
 //Class: SimulationState
-//Puropse: Initalizes the GUI, and contains all the get methods for the entered values
-// Adds the vegetations, fires, and checks the bounds of the grid
+//Purpose: Initializes the GUI, and contains all the get methods for the entered values
+// Adds the vegetation's, fires, and checks the bounds of the grid
 
 import java.util.Random;
 /**
